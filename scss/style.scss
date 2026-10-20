@@ -1,0 +1,435 @@
+// ==========================================================
+// Variabili (design token)
+// Spaziature: multipli di 8px. Scala tipografica: base 18px,
+// rapporto 1.125, valori arrotondati.
+// ==========================================================
+$bg: #121212;
+$bg-alt: #1a1a1a;
+$surface: #222222;
+$text: #ffffff;
+$text-muted: #b5b5b5;
+$primary: #ff1a1a;
+$primary-hover: #ff4d4d;
+$primary-active: #cc1414;
+$disabled: #555555;
+$border: #333333;
+
+$font-title: "Poppins", sans-serif;
+$font-body: "Inter", sans-serif;
+
+$fs-h1: 3.25rem;   // 52px
+$fs-h2: 2.5625rem; // 41px
+$fs-h3: 1.625rem;  // 26px
+$fs-p: 1.125rem;   // 18px
+$fs-small: 1rem;   // 16px
+
+$space-1: 0.5rem;  // 8px
+$space-2: 1rem;    // 16px
+$space-3: 1.5rem;  // 24px
+$space-4: 2rem;    // 32px
+$space-5: 2.5rem;  // 40px
+$space-8: 4rem;    // 64px
+$space-12: 6rem;   // 96px
+
+$radius: 0.5rem;   // 8px
+
+$bp-md: 960px;
+$bp-sm: 640px;
+
+// ==========================================================
+// Mixin
+// ==========================================================
+@mixin respond($max) {
+  @media (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin focus-ring {
+  outline: 3px solid $text;
+  outline-offset: 3px;
+}
+
+// ==========================================================
+// Base
+// ==========================================================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: $bg;
+  color: $text;
+  font-family: $font-body;
+  font-size: $fs-p;
+  line-height: 1.6;
+}
+
+img,
+picture {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 $space-2;
+  font-family: $font-title;
+  line-height: 1.2;
+}
+
+h1 { font-size: $fs-h1; font-weight: 700; }
+h2 { font-size: $fs-h2; font-weight: 600; margin-bottom: $space-5; }
+h3 { font-size: $fs-h3; font-weight: 600; }
+
+p {
+  margin: 0 0 $space-2;
+}
+
+a {
+  color: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// ==========================================================
+// Layout
+// ==========================================================
+.section {
+  padding: $space-12 0;
+
+  &--alt {
+    background-color: $bg-alt;
+  }
+
+  @include respond($bp-sm) {
+    padding: $space-8 0;
+  }
+}
+
+.lead {
+  color: $text-muted;
+  max-width: 40rem;
+}
+
+.eyebrow {
+  color: $primary;
+  font-family: $font-title;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: $fs-small;
+}
+
+.meta {
+  color: $text-muted;
+  font-size: $fs-small;
+}
+
+// ==========================================================
+// Navbar (Bootstrap) - menu sticky anche su mobile
+// ==========================================================
+.site-nav {
+  background-color: rgba($bg, 0.95);
+  border-bottom: 1px solid $border;
+  backdrop-filter: blur(8px);
+
+  .navbar-brand {
+    color: $text;
+    font-family: $font-title;
+    font-weight: 700;
+  }
+
+  .nav-link {
+    color: $text-muted;
+    font-size: $fs-small;
+    transition: color 0.2s;
+
+    &:hover,
+    &:focus-visible,
+    &.active {
+      color: $primary;
+    }
+  }
+
+  .navbar-toggler-icon {
+    filter: invert(1);
+  }
+
+  .navbar-toggler {
+    border-color: $border;
+
+    &:focus {
+      box-shadow: none;
+      @include focus-ring;
+    }
+  }
+}
+
+// ==========================================================
+// Hero (Flexbox)
+// ==========================================================
+.hero {
+  padding: $space-12 0;
+
+  @include respond($bp-sm) {
+    padding: $space-8 0;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-8;
+
+    @include respond($bp-md) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__text,
+  picture {
+    flex: 1 1 24rem;
+  }
+
+  img {
+    width: 100%;
+    border-radius: $radius;
+  }
+}
+
+// ==========================================================
+// Bottoni (colore come variabile, tutti gli stati)
+// ==========================================================
+.btn-brand {
+  display: inline-block;
+  padding: $space-2 $space-4;
+  border: 0;
+  border-radius: $radius;
+  background-color: $primary;
+  color: $text;
+  font-family: $font-title;
+  font-size: $fs-small;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover { background-color: $primary-hover; color: $text; }
+  &:focus-visible { @include focus-ring; }
+  &:active { background-color: $primary-active; }
+  &:disabled { background-color: $disabled; cursor: not-allowed; }
+}
+
+.btn-outline-brand {
+  @extend .btn-brand;
+  background-color: transparent;
+  border: 2px solid $primary;
+
+  &:hover { background-color: $primary; }
+}
+
+// ==========================================================
+// Griglia di card (CSS Grid)
+// ==========================================================
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: $space-4;
+
+  > .card-item {
+    grid-column: span 4;
+
+    @include respond($bp-md) { grid-column: span 6; }
+    @include respond($bp-sm) { grid-column: span 12; }
+  }
+
+  &--2 > .card-item {
+    grid-column: span 6;
+
+    @include respond($bp-sm) { grid-column: span 12; }
+  }
+}
+
+.card-item {
+  overflow: hidden;
+  background-color: $surface;
+  border: 1px solid $border;
+  border-radius: $radius;
+
+  img {
+    width: 100%;
+  }
+
+  &__body {
+    padding: $space-3;
+
+    p:last-child { margin-bottom: 0; }
+  }
+}
+
+.card-link {
+  display: inline-block;
+  margin: $space-1 $space-3 0 0;
+  color: $primary;
+  font-family: $font-title;
+  font-size: $fs-small;
+  font-weight: 500;
+
+  &:hover { color: $primary-hover; }
+  &:focus-visible { @include focus-ring; }
+}
+
+// ==========================================================
+// Timeline esperienze
+// ==========================================================
+.timeline {
+  margin: 0;
+  padding: 0 0 0 $space-4;
+  border-left: 2px solid $primary;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-bottom: $space-5;
+
+    &:last-child { padding-bottom: 0; }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.5rem;
+      left: calc(-2rem - 7px);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: $primary;
+    }
+  }
+
+  h3 { margin-bottom: $space-1; }
+}
+
+// ==========================================================
+// Skills e tabelle
+// ==========================================================
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: $space-1 $space-2;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background-color: $surface;
+    font-size: $fs-small;
+  }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: $space-2;
+    border-bottom: 1px solid $border;
+    text-align: left;
+    font-size: $fs-small;
+  }
+
+  thead th {
+    color: $primary;
+    font-family: $font-title;
+  }
+}
+
+// ==========================================================
+// Form
+// ==========================================================
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  max-width: 40rem;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+  }
+
+  label {
+    font-size: $fs-small;
+    font-weight: 500;
+  }
+
+  input,
+  textarea {
+    padding: $space-2;
+    border: 1px solid $border;
+    border-radius: $radius;
+    background-color: $surface;
+    color: $text;
+    font-family: $font-body;
+    font-size: $fs-small;
+
+    &::placeholder { color: $text-muted; }
+    &:hover { border-color: $text-muted; }
+    &:focus { border-color: $primary; outline: 2px solid $primary; outline-offset: 2px; }
+    &:disabled { background-color: $bg-alt; color: $disabled; cursor: not-allowed; }
+  }
+
+  .btn-brand {
+    align-self: flex-start;
+  }
+
+  &__status {
+    margin: 0;
+    min-height: 1.5rem;
+    font-size: $fs-small;
+    color: $text-muted;
+  }
+}
+
+// ==========================================================
+// Footer
+// ==========================================================
+.site-footer {
+  padding: $space-4 0;
+  border-top: 1px solid $border;
+  color: $text-muted;
+  font-size: $fs-small;
+
+  p { margin: 0; }
+}
+
+// ==========================================================
+// Responsive
+// ==========================================================
+@include respond($bp-sm) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.375rem; }
+}
